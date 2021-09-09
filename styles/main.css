@@ -1,0 +1,16 @@
+.screen {
+    display:none;
+}
+.width95 {
+    width: 95%;
+}
+.mt7 {
+    margin-top: 7px;
+}
+.txt-left {
+    text-align: left !important;
+}
+
+.red-border {
+    border-color:red;
+}
