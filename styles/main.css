@@ -1,6 +1,9 @@
 .screen {
     display:none;
 }
+.patients-list {
+    display:block;
+}
 .width95 {
     width: 95%;
 }

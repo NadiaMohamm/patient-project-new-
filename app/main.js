@@ -37,8 +37,7 @@ hideAll = () => {
 }
 
 onEditClick = (e) => {
-    var siblings = $(e.target).parent().siblings();
-    var userID = $(siblings).eq(0).text();
+    var userID = $(e.target).closest('tr').data().id;
     $(".user-id").text(userID);
 }
 

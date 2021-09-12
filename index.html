@@ -5,14 +5,14 @@
     <title>Patient Project </title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="lib/bootstrap-3.3.7.css">
+    <link rel="stylesheet" href="modules/bootstrap/bootstrap-3.3.7.css">
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/sidebar.css">
 </head>
 
 <body>
     <div class="page-container">
-        <!-- Sidebar -->
+        <!-- Sidebar ----------------------------------------------------------------------------------------------------------------------->
         <div class="sidebar">
             <ul class="sidebar-nav">
                 <li>
@@ -25,25 +25,12 @@
         </div>
         <!-- Page Content -->
         <div class="content-container" class="container-fluid">
+            <!-- **********************************************************************************************************************-->
             <div class=" patients-list screen ">
                 <h1 class="width95">Patients
                     <button type="button" class="btn btn-primary btn-sm router-link pull-right"
                         data-target=".patients-edit">Add</button></h1>
-                <template class="template-elm">
-                    <tr>
-                        <td>{{ID}}</td>
-                        <td>{{fname}} {{mname}} {{lname}}</td>
-                        <td>{{email}}</td>
-                        <td>{{gender}}</td>
-                        <td>{{DOB}}</td>
-                        <td>{{Active}}</td>
-                        <td>{{CreatedBy}}{{creationDate}}</td>
-                        <td><button type="button" class="btn btn-primary btn-sm router-link edit-btn"
-                                data-target=".patients-edit">Edit</button></td>
-                    </tr>
-                </template>
-                <div class="table-responsive">
-                    <table class="table table-bordered table-striped table-hover table-condensed width95">
+                    <table class="table table-responsive table-bordered table-striped table-hover table-condensed width95">
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -59,13 +46,27 @@
                         <tbody class="patient-list-body">
                         </tbody>
                     </table>
-                </div>
+                <template class="template-elm">
+                    <tr data-id="{{ID}}">
+                        <td>{{ID}}</td>
+                        <td>{{fname}} {{mname}} {{lname}}</td>
+                        <td>{{email}}</td>
+                        <td>{{gender}}</td>
+                        <td>{{DOB}}</td>
+                        <td>{{Active}}</td>
+                        <td>{{CreatedBy}}{{creationDate}}</td>
+                        <td><button type="button" class="btn btn-primary btn-sm router-link edit-btn"
+                                data-target=".patients-edit">Edit</button></td>
+                    </tr>
+                </template>
             </div>
+             <!-- **********************************************************************************************************************-->
             <div class=" users-list screen">
                 <h1 class="width95">Users
                     <button type="button" class="btn btn-primary btn-sm router-link pull-right"
                         data-target=".users-edit">Add</button></h1>
             </div>
+            <!-- **********************************************************************************************************************-->
             <div class="patients-edit screen">
                 <h1>Patient:(new)</h1>
                 <p class="user-id"></p>
@@ -74,6 +75,7 @@
                     <button type="button" class="btn btn-danger btn-sm router-link"
                         data-target=".patients-list">Cancle</button>
             </div>
+             <!-- **********************************************************************************************************************-->
             <div class="users-edit screen">
                 <h1>User:(new)</h1>
                 <button type="button" class="btn btn-primary btn-sm router-link patient-edit-save-btn"
@@ -84,10 +86,9 @@
         </div>
     </div>
     <script src="app/data/patientData.js"></script>
-    <script src="lib/jquery-3.6.0.js"></script>
-    <script src="lib/bootstrap-3.3.7.js"></script>
-    <script src="lib/moment.js"></script>
-    <script src="lib/moment-with-locales.js"></script>
+    <script src="modules/jquery/jquery-3.6.0.js"></script>
+    <script src="modules/bootstrap/bootstrap-3.3.7.js"></script>
+    <script src="modules/moment/moment.js"></script>
     <script src="app/main.js"></script>
 
 </body>
