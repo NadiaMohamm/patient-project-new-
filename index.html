@@ -28,24 +28,25 @@
             <!-- **********************************************************************************************************************-->
             <div class=" patients-list screen ">
                 <h1 class="width95">Patients
-                    <button type="button" class="btn btn-primary btn-sm router-link pull-right"
+                    <button type="button" class="btn btn-primary btn-sm router-link pull-right add-btn"
                         data-target=".patients-edit">Add</button></h1>
-                    <table class="table table-responsive table-bordered table-striped table-hover table-condensed width95">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Gender</th>
-                                <th>DOB</th>
-                                <th>Active</th>
-                                <th>Creation</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody class="patient-list-body">
-                        </tbody>
-                    </table>
+                <table
+                    class="table table-responsive table-bordered table-striped table-hover table-condensed width95 patients-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Gender</th>
+                            <th>DOB</th>
+                            <th>Active</th>
+                            <th>Creation</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="patient-list-body">
+                    </tbody>
+                </table>
                 <template class="template-elm">
                     <tr data-id="{{ID}}">
                         <td>{{ID}}</td>
@@ -60,7 +61,7 @@
                     </tr>
                 </template>
             </div>
-             <!-- **********************************************************************************************************************-->
+            <!-- **********************************************************************************************************************-->
             <div class=" users-list screen">
                 <h1 class="width95">Users
                     <button type="button" class="btn btn-primary btn-sm router-link pull-right"
@@ -70,12 +71,73 @@
             <div class="patients-edit screen">
                 <h1>Patient:(new)</h1>
                 <p class="user-id"></p>
-                    <button type="button" class="btn btn-primary btn-sm router-link patient-edit-save-btn"
+                <!--  Patient Form*************************************************-->
+                <form class="form-horizontal width95 " id="patient-form">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2 txt-left" for="first-name">First Name</label>
+                        <div class="col-sm-4 ">
+                            <input type="text" class="form-control" id="first-name" data-toggle="tooltip"
+                                title="Required" required>
+                        </div>
+                        <label class="control-label col-sm-2 txt-left" for="email">Email</label>
+                        <div class="col-sm-4">
+                            <input type="email" class="form-control" id="email" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2 txt-left" for="middle-name">Middle Name</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" id="middle-name" required>
+                        </div>
+                        <label class="control-label col-sm-2 txt-left" for="dof">Date of Birth </label>
+                        <div class="col-sm-4">
+                            <input type="date" class="form-control" id="dof" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2 txt-left" for="last-name">Last Name</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" id="last-name" required>
+                        </div>
+                        <label class="control-label col-sm-2 txt-left" for="last-check">Last Check</label>
+                        <div class="col-sm-4">
+                            <input type="date" class="form-control" id="last-check" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2 txt-left" for="status">Status</label>
+                        <div class="col-sm-4">
+                            <select class="form-control" name="status" id="status">
+                                <option>Draft</option>
+                                <option>Saved</option>
+                                <option>Deleted</option>
+                            </select>
+                        </div>
+                        <label class="control-label col-sm-2 txt-left" for="gender">Gender</label>
+                        <div class="col-sm-4 mt7">
+                            <div id="gender">
+                                <input type="radio" id="male" name="gender" value="1">
+                                <label for="male">Male</label>
+                                <input type="radio" id="female" name="gender" value="2">
+                                <label for="female">Female</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2 txt-left" for="active">Active</label>
+                        <div class="col-sm-1 mt7">
+                            <input type="checkbox" id="active">
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn btn-primary btn-sm router-link patient-save-btn"
                         data-target=".patients-list">Save</button>
                     <button type="button" class="btn btn-danger btn-sm router-link"
                         data-target=".patients-list">Cancle</button>
+                </form>
+                <!--   The END of Patient Form*************************************-->
             </div>
-             <!-- **********************************************************************************************************************-->
+            <!-- **********************************************************************************************************************-->
             <div class="users-edit screen">
                 <h1>User:(new)</h1>
                 <button type="button" class="btn btn-primary btn-sm router-link patient-edit-save-btn"
