@@ -12,7 +12,8 @@
 
 <body>
     <div class="page-container">
-        <!-- Sidebar ----------------------------------------------------------------------------------------------------------------------->
+        <!--****************************************************************************-->
+        <!-- Sidebar -->
         <div class="sidebar">
             <ul class="sidebar-nav">
                 <li>
@@ -23,15 +24,17 @@
                 </li>
             </ul>
         </div>
+        <!--****************************************************************************-->
         <!-- Page Content -->
         <div class="content-container" class="container-fluid">
-            <!-- **********************************************************************************************************************-->
+            <!--****************************************************************************-->
+            <!-- Patients List Screen -->
             <div class=" patients-list screen ">
-                <h1 class="width95">Patients
+                <h1 class="page-content">Patients
                     <button type="button" class="btn btn-primary btn-sm router-link pull-right add-btn"
                         data-target=".patients-edit">Add</button></h1>
                 <table
-                    class="table table-responsive table-bordered table-striped table-hover table-condensed width95 patients-table">
+                    class="table table-responsive table-bordered table-striped table-hover table-condensed page-content patients-table">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -47,7 +50,7 @@
                     <tbody class="patient-list-body">
                     </tbody>
                 </table>
-                <template class="template-elm">
+                <template class="patient-list-template">
                     <tr data-id="{{ID}}">
                         <td>{{ID}}</td>
                         <td>{{fname}} {{mname}} {{lname}}</td>
@@ -61,18 +64,20 @@
                     </tr>
                 </template>
             </div>
-            <!-- **********************************************************************************************************************-->
+            <!--****************************************************************************-->
+            <!-- Users List Screen -->
             <div class=" users-list screen">
-                <h1 class="width95">Users
+                <h1 class="page-content">Users
                     <button type="button" class="btn btn-primary btn-sm router-link pull-right"
                         data-target=".users-edit">Add</button></h1>
             </div>
-            <!-- **********************************************************************************************************************-->
+            <!--****************************************************************************-->
+            <!-- Patients Edit Screen -->
             <div class="patients-edit screen">
                 <h1>Patient:(new)</h1>
-                <p class="user-id"></p>
+                <p class="patient-id"></p>
                 <!--  Patient Form*************************************************-->
-                <form class="form-horizontal width95 " id="patient-form">
+                <form class="form-horizontal page-content " id="patient-form">
                     <div class="form-group">
                         <label class="control-label col-sm-2 txt-left" for="first-name">First Name</label>
                         <div class="col-sm-4 ">
@@ -114,7 +119,7 @@
                             </select>
                         </div>
                         <label class="control-label col-sm-2 txt-left" for="gender">Gender</label>
-                        <div class="col-sm-4 mt7">
+                        <div class="col-sm-4 radio-check-content">
                             <div id="gender">
                                 <input type="radio" id="male" name="gender" value="1">
                                 <label for="male">Male</label>
@@ -125,19 +130,20 @@
                     </div>
                     <div class="form-group">
                         <label class="control-label col-sm-2 txt-left" for="active">Active</label>
-                        <div class="col-sm-1 mt7">
+                        <div class="col-sm-1 radio-check-content">
                             <input type="checkbox" id="active">
                         </div>
                     </div>
 
-                    <button type="button" class="btn btn-primary btn-sm router-link patient-save-btn"
+                    <button type="button" class="btn btn-primary btn-sm  patient-save-btn"
                         data-target=".patients-list">Save</button>
                     <button type="button" class="btn btn-danger btn-sm router-link"
                         data-target=".patients-list">Cancle</button>
                 </form>
                 <!--   The END of Patient Form*************************************-->
             </div>
-            <!-- **********************************************************************************************************************-->
+            <!--****************************************************************************-->
+            <!--Users  Edit Screen -->
             <div class="users-edit screen">
                 <h1>User:(new)</h1>
                 <button type="button" class="btn btn-primary btn-sm router-link patient-edit-save-btn"
@@ -151,6 +157,7 @@
     <script src="modules/jquery/jquery-3.6.0.js"></script>
     <script src="modules/bootstrap/bootstrap-3.3.7.js"></script>
     <script src="modules/moment/moment.js"></script>
+    <script src="modules/Knockout/knockout-3.5.1.js"></script>
     <script src="app/main.js"></script>
 
 </body>

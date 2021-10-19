@@ -1,9 +1,6 @@
-var patientSaveFor = "";
-var id = " ";
-var trselcted = null;
+var formMode = "";
 var statusArr = ["Draft", "Saved", "Deleted"];
-var oldPatientObj = null;
-var index;
+
 appInit = () => {
     renderTable();
     $(".router-link").click(onRouterLinkClick);
@@ -13,7 +10,8 @@ appInit = () => {
 }
 
 renderTable = () => {
-    var txt = $(".template-elm").html();
+    $("tbody tr").remove();
+    var txt = $(".patient-list-template").html();
     for (let i = 0; i < patientsData.length; i++) {
         var tr = renderTemplate(txt, patientsData[i]);
         $("tbody").append(tr);
@@ -45,49 +43,33 @@ hideAll = () => {
 }
 
 onEditClick = (e) => {
-    patientSaveFor = "edit";
-    trselcted = $(e.target).closest('tr');
-    id = trselcted.data("id");
-    $(".user-id").text(" User ID: " + id);
-    for (let i = 0; i < patientsData.length; i++) {
-        if (id == patientsData[i].ID) {
-            oldPatientObj = patientsData[i];
-            index = i;
-        }
-    }
-    setPatientFormData();
+    formMode = "edit";
+    let trSelcted = $(e.target).closest('tr');
+    let idSelected = trSelcted.data("id");
+    $(".patients-edit .patient-id").text(idSelected);
+    let selectedPatientObj = getPatientByID(idSelected);
+    setPatientFormData(selectedPatientObj);
 }
 
 onAddClick = () => {
-    patientSaveFor = "add";
-    $(".user-id").text("");
-    id = $("table.patients-table tr:last").data("id") + 1;
+    formMode = "add";
+    $(".patient-id").text("");
 }
 
 onSaveClick = () => {
     var patientFormObj = getPatientFormData();
-    patientFormObj.ID = id;
-    var txt = $(".template-elm").html();
-    if (patientSaveFor == "edit") {
-        patientFormObj.CreatedBy = oldPatientObj.CreatedBy;
-        patientFormObj.creationDate = oldPatientObj.creationDate;
-        patientsData[index] = patientFormObj;
-        var tr = renderTemplate(txt, patientFormObj);
-        var newTr = $(tr).replaceAll(trselcted);
-        $(newTr).find(".edit-btn").click(onRouterLinkClick);
-        $(newTr).find(".edit-btn").click(onEditClick);
+    if (formMode == "edit") {
+        patientFormObj.ID = $(".patient-id").text();
+        updatePatient(patientFormObj);
     }
-    if (patientSaveFor == "add") {
-        patientFormObj.creationDate = moment();
-        patientFormObj.CreatedBy = 1;
-        patientsData.push(patientFormObj);
-        var tr = renderTemplate(txt, patientsData[patientsData.length - 1]);
-        $("tbody").append(tr);
-        var addedBtn = $("table.patients-table tr:last").children().children().filter(".edit-btn");
-        $(addedBtn).click(onRouterLinkClick);
-        $(addedBtn).click(onEditClick);
+    if (formMode == "add") {
+        addPatient(patientFormObj);
     }
+    showListScreen();
+    $(".edit-btn").click(onRouterLinkClick);
+    $(".edit-btn").click(onEditClick);
     $('#patient-form')[0].reset();
+
 }
 
 getPatientFormData = () => {
@@ -103,13 +85,13 @@ getPatientFormData = () => {
     patientFormObj.Active = $("#active")[0].checked;
     return patientFormObj;
 }
-setPatientFormData = () => {
-    $("#first-name").val(oldPatientObj.fname);
-    $("#middle-name").val(oldPatientObj.mname);
-    $("#last-name").val(oldPatientObj.lname);
-    $("#email").val(oldPatientObj.email);
-    $("#active").prop('checked', oldPatientObj.Active);
-    if (oldPatientObj.gender == 1) {
+setPatientFormData = (patirntObj) => {
+    $("#first-name").val(patirntObj.fname);
+    $("#middle-name").val(patirntObj.mname);
+    $("#last-name").val(patirntObj.lname);
+    $("#email").val(patirntObj.email);
+    $("#active").prop('checked', patirntObj.Active);
+    if (patirntObj.gender == 1) {
         $("#male").prop('checked', true);
         $("#female").prop('checked', false);
     }
@@ -117,9 +99,48 @@ setPatientFormData = () => {
         $("#male").prop('checked', false);
         $("#female").prop('checked', true);
     }
-    $("#status").val(statusArr[oldPatientObj.status]);
-    $("#dof").val(moment(oldPatientObj.DOB).format('YYYY-MM-DD'));
-    $("#last-check").val(moment(oldPatientObj.lastCheck).format('YYYY-MM-DD'));
+    $("#status").val(statusArr[patirntObj.status]);
+    $("#dof").val(moment(patirntObj.DOB).format('YYYY-MM-DD'));
+    $("#last-check").val(moment(patirntObj.lastCheck).format('YYYY-MM-DD'));
+}
+getPatientByID = (id) => {
+    for (let i = 0; i < patientsData.length; i++) {
+        if (id == patientsData[i].ID) {
+            let patientObj = patientsData[i];
+            return patientObj;
+        }
+    }
+}
+getIndexByID = (id) => {
+    for (let i = 0; i < patientsData.length; i++) {
+        if (id == patientsData[i].ID) {
+            let index = i;
+            return index;
+        }
+    }
+}
+updatePatient = (newPatientObj) => {
+    let oldPatientObj = getPatientByID(newPatientObj.ID);
+    oldPatientObj.fname = newPatientObj.fname;
+    oldPatientObj.mname = newPatientObj.mname;
+    oldPatientObj.lname = newPatientObj.lname;
+    oldPatientObj.DOB = newPatientObj.DOB;
+    oldPatientObj.gender = newPatientObj.gender;
+    oldPatientObj.email = newPatientObj.email;
+    oldPatientObj.lastCheck = newPatientObj.lastCheck;
+    oldPatientObj.status = newPatientObj.status;
+    oldPatientObj.Active = newPatientObj.Active;
+}
+addPatient = (patientObj) => {
+    let newId = patientsData[patientsData.length - 1].ID + 1;
+    patientObj.ID = newId;
+    patientObj.creationDate = moment();
+    patientObj.CreatedBy = 1;
+    patientsData.push(patientObj);
+}
+showListScreen = () => {
+    renderTable();
+    navigate(".patients-list");
 }
 $(document).ready(appInit);
 
