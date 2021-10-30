@@ -1,5 +1,6 @@
 var formMode = "";
 var statusArr = ["Draft", "Saved", "Deleted"];
+var patientID;
 
 appInit = () => {
     renderTable();
@@ -43,23 +44,35 @@ hideAll = () => {
 }
 
 onEditClick = (e) => {
-    formMode = "edit";
     let trSelcted = $(e.target).closest('tr');
-    let idSelected = trSelcted.data("id");
-    $(".patients-edit .patient-id").text(idSelected);
-    let selectedPatientObj = getPatientByID(idSelected);
-    setPatientFormData(selectedPatientObj);
+    patientID = trSelcted.data("id");
+    $(".patients-edit .patient-id").text(patientID);
+    open(patientID);
 }
 
 onAddClick = () => {
-    formMode = "add";
     $(".patient-id").text("");
+    open();
+}
+
+open = (ID) => {
+    patientID = ID;
+    if ((patientID) == null) {
+        formMode = "add";
+        resetControls();
+    }
+    else {
+        formMode = "edit";
+        let selectedPatientObj = getPatientByID(patientID);
+        loadControlsData(selectedPatientObj);
+    }
+    navigate(".patients-edit");
 }
 
 onSaveClick = () => {
-    var patientFormObj = getPatientFormData();
+    var patientFormObj = getControlsData();
     if (formMode == "edit") {
-        patientFormObj.ID = $(".patient-id").text();
+        patientFormObj.ID = patientID;
         updatePatient(patientFormObj);
     }
     if (formMode == "add") {
@@ -68,11 +81,9 @@ onSaveClick = () => {
     showListScreen();
     $(".edit-btn").click(onRouterLinkClick);
     $(".edit-btn").click(onEditClick);
-    $('#patient-form')[0].reset();
-
 }
 
-getPatientFormData = () => {
+getControlsData = () => {
     var patientFormObj = {};
     patientFormObj.fname = $("#first-name").val();
     patientFormObj.mname = $("#middle-name").val();
@@ -85,7 +96,7 @@ getPatientFormData = () => {
     patientFormObj.Active = $("#active")[0].checked;
     return patientFormObj;
 }
-setPatientFormData = (patirntObj) => {
+loadControlsData = (patirntObj) => {
     $("#first-name").val(patirntObj.fname);
     $("#middle-name").val(patirntObj.mname);
     $("#last-name").val(patirntObj.lname);
@@ -103,6 +114,11 @@ setPatientFormData = (patirntObj) => {
     $("#dof").val(moment(patirntObj.DOB).format('YYYY-MM-DD'));
     $("#last-check").val(moment(patirntObj.lastCheck).format('YYYY-MM-DD'));
 }
+
+resetControls = () => {
+    $('#patient-form')[0].reset();
+}
+
 getPatientByID = (id) => {
     for (let i = 0; i < patientsData.length; i++) {
         if (id == patientsData[i].ID) {
