@@ -1,48 +1,28 @@
 var formMode = "";
 var statusArr = ["Draft", "Saved", "Deleted"];
 var patientID;
-
 appInit = () => {
+    mydataServiceClass.init();
+    myRouterEngineClass.init();
+    myTemplateEngineClass.init();
     renderTable();
-    $(".router-link").click(onRouterLinkClick);
+    $(".router-link").click(myRouterEngineClass.onRouterLinkClick);
     $(".edit-btn").click(onEditClick);
     $(".add-btn").click(onAddClick);
     $(".patient-save-btn").click(onSaveClick);
+    $(".delete-btn").click(deletePatinetFromListScreen);
+    $(".delete-btn-table").click(deletePatinetFromEditScreen);
+    $(".modal-delete-yes-btn").click(confirmDeletion);
 }
 
 renderTable = () => {
     $("tbody tr").remove();
     var txt = $(".patient-list-template").html();
-    for (let i = 0; i < patientsData.length; i++) {
-        var tr = renderTemplate(txt, patientsData[i]);
+    for (let i = 0; i < mydataServiceClass.getAll().length; i++) {
+        var tr = myTemplateEngineClass.renderTemplate(txt, mydataServiceClass.getAll()[i]);
         $("tbody").append(tr);
     }
 }
-
-renderTemplate = (str, patientDataObj) => {
-    var placeHolder = str.match(/\{{.+?}\}/g);
-    var token = str.match(/[^{\}]+(?=})/g);
-    for (let i = 0; i < token.length; i++) {
-        var patientData = patientDataObj[token[i]];
-        str = str.replace(placeHolder[i], patientData);
-    }
-    return str;
-}
-
-onRouterLinkClick = (e) => {
-    var desiredContent = $(e.target).data("target");
-    navigate(desiredContent);
-}
-
-navigate = (desiredContent) => {
-    hideAll();
-    $(desiredContent).show();
-}
-
-hideAll = () => {
-    $(".screen").hide();
-}
-
 onEditClick = (e) => {
     let trSelcted = $(e.target).closest('tr');
     patientID = trSelcted.data("id");
@@ -63,24 +43,23 @@ open = (ID) => {
     }
     else {
         formMode = "edit";
-        let selectedPatientObj = getPatientByID(patientID);
+        let selectedPatientObj = mydataServiceClass.getPatientByID(patientID);
         loadControlsData(selectedPatientObj);
     }
-    navigate(".patients-edit");
+    myRouterEngineClass.navigate(".patients-edit");
 }
 
 onSaveClick = () => {
     var patientFormObj = getControlsData();
     if (formMode == "edit") {
         patientFormObj.ID = patientID;
-        updatePatient(patientFormObj);
+        mydataServiceClass.updatePatient(patientFormObj);
     }
     if (formMode == "add") {
-        addPatient(patientFormObj);
+        mydataServiceClass.addPatient(patientFormObj);
     }
-    showListScreen();
-    $(".edit-btn").click(onRouterLinkClick);
-    $(".edit-btn").click(onEditClick);
+    renderTable();
+    myRouterEngineClass.showListScreen();
 }
 
 getControlsData = () => {
@@ -93,6 +72,7 @@ getControlsData = () => {
     patientFormObj.email = $("#email").val();
     patientFormObj.lastCheck = $("#last-check").val();
     patientFormObj.status = statusArr.indexOf($("#status").val());
+    debugger
     patientFormObj.Active = $("#active")[0].checked;
     return patientFormObj;
 }
@@ -118,45 +98,20 @@ loadControlsData = (patirntObj) => {
 resetControls = () => {
     $('#patient-form')[0].reset();
 }
-
-getPatientByID = (id) => {
-    for (let i = 0; i < patientsData.length; i++) {
-        if (id == patientsData[i].ID) {
-            let patientObj = patientsData[i];
-            return patientObj;
-        }
+deletePatinetFromListScreen = () => {
+    if (formMode == "edit") {
+        $("#ModelDeletePatient").modal();
     }
 }
-getIndexByID = (id) => {
-    for (let i = 0; i < patientsData.length; i++) {
-        if (id == patientsData[i].ID) {
-            let index = i;
-            return index;
-        }
-    }
+deletePatinetFromEditScreen = (e) => {
+    patientID = $(e.target).closest('tr').data("id");
+    $("#ModelDeletePatient").modal();
 }
-updatePatient = (newPatientObj) => {
-    let oldPatientObj = getPatientByID(newPatientObj.ID);
-    oldPatientObj.fname = newPatientObj.fname;
-    oldPatientObj.mname = newPatientObj.mname;
-    oldPatientObj.lname = newPatientObj.lname;
-    oldPatientObj.DOB = newPatientObj.DOB;
-    oldPatientObj.gender = newPatientObj.gender;
-    oldPatientObj.email = newPatientObj.email;
-    oldPatientObj.lastCheck = newPatientObj.lastCheck;
-    oldPatientObj.status = newPatientObj.status;
-    oldPatientObj.Active = newPatientObj.Active;
-}
-addPatient = (patientObj) => {
-    let newId = patientsData[patientsData.length - 1].ID + 1;
-    patientObj.ID = newId;
-    patientObj.creationDate = moment();
-    patientObj.CreatedBy = 1;
-    patientsData.push(patientObj);
-}
-showListScreen = () => {
+confirmDeletion = () => {
+    mydataServiceClass.deletePatientByID(patientID);
     renderTable();
-    navigate(".patients-list");
+    myRouterEngineClass.showListScreen();
 }
+
 $(document).ready(appInit);
 

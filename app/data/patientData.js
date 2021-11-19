@@ -1,5 +1,5 @@
  var patientsData=[
-{ ID: 93095637, fname: "ليلى", mname: "حسين", lname: "حجازي", DOB: new Date("12/23/1954"), gender: 2, email: "", lastCheck: new Date("12/23/2014"), status: 0 , Active:true, creationDate: new Date("12/23/2014"), CreatedBy: 1 } , 
+{ ID: 93095637, fname: "ليلى", mname: "حسين", lname: "حجازي", DOB: new Date("12/23/1954"), gender: 2, email: "", lastCheck: new Date("12/23/2014"), status: 0 , Active:false, creationDate: new Date("12/23/2014"), CreatedBy: 1 } , 
  { ID: 93095638, fname: "محجي", mname: "عبدالعالي", lname: "المعبدي", DOB: new Date("12/23/1985"), gender: 1, email: "", lastCheck: new Date("12/23/2014"), status: 0 , Active:true, creationDate: new Date("12/23/2014"), CreatedBy: 1 } , 
  { ID: 93095639, fname: "صفية", mname: "محمد", lname: "احمد", DOB: new Date("12/23/1946"), gender: 2, email: "", lastCheck: new Date("12/23/2014"), status: 0 , Active:true, creationDate: new Date("12/23/2014"), CreatedBy: 1 } , 
  { ID: 93095640, fname: "تينا", mname: "غازي", lname: "ناصر", DOB: new Date("12/23/2007"), gender: 2, email: "", lastCheck: new Date("12/23/2014"), status: 0 , Active:true, creationDate: new Date("12/23/2014"), CreatedBy: 1 } , 
