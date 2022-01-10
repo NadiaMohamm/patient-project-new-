@@ -1,6 +1,6 @@
 class routerEngineClass {
     init = () => {
-
+        $(".router-link").click(this.onRouterLinkClick);
     }
     onRouterLinkClick = (e) => {
         var desiredContent = $(e.target).data("target");
@@ -17,8 +17,8 @@ class routerEngineClass {
     showListScreen = () => {
         this.navigate(".patients-list");
         $(".edit-btn").click(this.onRouterLinkClick);
-        $(".edit-btn").click(onEditClick);
-        $(".delete-btn-table").click(deletePatinetFromEditScreen);
+        $(".edit-btn").click(myPatientListClass.onEditClick);
+        $(".delete-btn-table").click(myPatientEditClass.deletePatinetFromEditScreen);
     }
 }
 let myRouterEngineClass = new routerEngineClass();

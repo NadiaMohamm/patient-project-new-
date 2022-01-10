@@ -17,3 +17,7 @@
 .red-border {
     border-color:red;
 }
+
+.error-message {
+    color:red;
+}
